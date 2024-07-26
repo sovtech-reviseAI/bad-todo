@@ -1,17 +1,21 @@
+# MANUAL TRIGGER OF COMMENT SCRIPT
 name: Comment on PR
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "The number of the pull request"
+        required: true
+      comment:
+        description: "The comment to post"
+        required: true
 
 permissions:
-    issues: write 
+  issues: write # Explicitly grant permission to write to issues
 
 jobs:
-  CommentOnPR:
+  comment:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,15 +23,55 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: "20.16.0"
+          node-version: "16"
 
       - name: Install dependencies
-        run: npm install dotenv axios
+        run: npm install axios dotenv
 
       - name: Run comment script
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-          PR_NUMBER: ${{ github.event.number }}
-        run: node script/commentPR.js
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          PR_NUMBER: ${{ github.event.inputs.pr_number }}
+          COMMENT: ${{ github.event.inputs.comment }}
+        run: node commentPR.js
+
+
+# THE COMMENTED OUT CODE RUNS THE ACTION EVERYTIME A PR IS OPENED OR CHANGED
+# THIS 
+# name: Comment on PR
+
+# on:
+#   pull_request:
+#     types:
+#       - opened
+#       - synchronize
+#       - reopened
+
+# permissions:
+#     issues: write
+
+# jobs:
+#   CommentOnPR:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v3
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: "20.16.0"
+
+#       - name: Install dependencies
+#         run: npm install dotenv axios
+
+#       - name: Run comment script
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+#           PR_NUMBER: ${{ github.event.number }}
+#         run: node script/commentPR.js
