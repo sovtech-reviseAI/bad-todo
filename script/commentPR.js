@@ -5,7 +5,7 @@ const axios = require("axios");
 const pullNumber = process.env.PR_NUMBER;
 const token = process.env.GITHUB_TOKEN
 
-const url = `https://api.github.com/repos/littlevegasdavids/todo-hatch-2024/issues/${pullNumber}/comments`;
+const url = `https://api.github.com/repos/sovtech-reviseAI/bad-todo/issues/${pullNumber}/comments`;
 
 const testComment = "Comment from script";
 
