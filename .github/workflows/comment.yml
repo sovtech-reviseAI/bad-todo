@@ -1,3 +1,4 @@
+# MANUAL TRIGGER OF COMMENT SCRIPT
 name: Comment on PR
 
 on:
@@ -39,6 +40,8 @@ jobs:
         run: node commentPR.js
 
 
+# THE COMMENTED OUT CODE RUNS THE ACTION EVERYTIME A PR IS OPENED OR CHANGED
+# THIS 
 # name: Comment on PR
 
 # on:
