@@ -1,0 +1,33 @@
+name: Comment on PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+    issues: write 
+
+jobs:
+  CommentOnPR:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.16.0"
+
+      - name: Install dependencies
+        run: npm install dotenv axios
+
+      - name: Run comment script
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
+        run: node script/commentPR.js
