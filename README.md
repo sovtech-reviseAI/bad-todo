@@ -1,1 +1,1 @@
-# bad-todo
+This is a bad todo app
