@@ -26,8 +26,7 @@ async function postComment() {
   }
 
   try {
-    const response = await axios.post(url, data, { headers });
-    console.log('response: ', response.data);
+    await axios.post(url, data, { headers });
     console.log("Comment successfully posted");
   } catch (error) {
     console.error("Error posting comment:", error.response.data);
